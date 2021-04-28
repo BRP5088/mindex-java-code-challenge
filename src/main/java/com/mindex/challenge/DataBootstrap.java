@@ -15,7 +15,7 @@ public class DataBootstrap {
     private static final String DATASTORE_LOCATION = "/static/employee_database.json";
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    protected EmployeeRepository employeeRepository;
 
     @Autowired
     private ObjectMapper objectMapper;

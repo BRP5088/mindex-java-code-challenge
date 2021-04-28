@@ -15,7 +15,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    public EmployeeRepository employeeRepository;
 
     @Override
     public Employee create(Employee employee) {
@@ -45,5 +45,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         LOG.debug("Updating employee [{}]", employee);
 
         return employeeRepository.save(employee);
+    }
+
+    public Employee getEmployee( String employeeID ){
+        Employee employee = employeeRepository.findByEmployeeId(employeeID);
+
+        if (employee == null) {
+            throw new RuntimeException("Invalid employeeId: " + employeeID);
+        }
+        return employee;
     }
 }
