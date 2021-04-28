@@ -97,7 +97,6 @@ public class Employee extends EmployeeServiceImpl{
                 }
 
                 total += e.getNumberOfReports( true );
-                // total += employee.getNumberOfReports( true );
             }
             total += is_child == true ? 1 : 0;
             return total;
