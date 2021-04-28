@@ -31,22 +31,45 @@ public class EmployeeController {
 
 
 
-
+    // Task 1
     @GetMapping("/ReportingStructure/{id}")
     public String reportStruct(@PathVariable String id) {
         LOG.debug("Received Reporting Structure request for id [{}]", id);
-
-
-
         Employee employee = employeeService.read(id);
-
-        // employee.setReportingStructure();
-        // System.out.println("Employee resource struct=" + employee.getReportingStructure());
-
-
-
         return employee.generateReportStructString();
     }
+
+
+    // Task 2
+    @GetMapping("/CompensationWrite/{id}/{salary}/{effectiveDate}")
+    public Employee read_sal_eff(@PathVariable String id, @PathVariable int salary, @PathVariable String effectiveDate ) {
+        LOG.debug("Received CompensationWrite request for id [{}], salary [{}], effective date [{}]", id, salary, effectiveDate);
+
+        Employee employee = employeeService.read(id);
+        // return employee.generateCompensationReadString();
+        employee.SetCompensationReadWrite( id, salary, effectiveDate);
+        // return "success";
+        // return employee;
+        // employee.setEmployeeId(id);
+        return employeeService.update(employee);
+    }
+    
+
+
+
+
+    @GetMapping("/CompensationRead/{id}")
+    public String read_sal_eff(@PathVariable String id) {
+        LOG.debug("Received CompensationRead request for id [{}]", id);
+
+        Employee employee = employeeService.read(id);
+        // return employee.generateCompensationReadString();
+        return employee.generateCompensationReadString();
+    }
+
+
+
+
 
     @PutMapping("/employee/{id}")
     public Employee update(@PathVariable String id, @RequestBody Employee employee) {

@@ -15,7 +15,11 @@ public class Employee extends EmployeeServiceImpl{
     private String position;
     private String department;
     private List<Employee> directReports;
-    public static HashMap<String, Employee> employee_lst;
+    private static HashMap<String, Employee> employee_lst;
+
+    private int salary;
+    private String effectiveDate;
+    
 
 
     public Employee() {
@@ -24,6 +28,25 @@ public class Employee extends EmployeeServiceImpl{
         if( employee_lst == null){
             employee_lst = new HashMap<String, Employee>();
         }
+
+        setSalary(1000);
+        setEffectiveDate("01/01/1970");
+    }
+
+    public String getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(String effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     public String getEmployeeId() {
@@ -123,4 +146,30 @@ public class Employee extends EmployeeServiceImpl{
     public int get_employee_size(){
         return employee_lst.size();
     }
+
+
+    public void SetCompensationReadWrite( String employeeId, int salary, String effectiveDate ){
+        // Employee employee = employee_lst.get( employeeId );
+
+        // employee.setSalary(salary);
+        // employee.setEffectiveDate(effectiveDate);
+        
+        // Employee employee = employee_lst.get( employeeId );
+
+        this.setSalary(salary);
+        this.setEffectiveDate(effectiveDate);
+
+        // return employee.generateCompensationReadString();
+    }
+
+
+    public String generateCompensationReadString() {
+        String output_string = "{";
+        output_string += "\"employee\": " + this.getEmployeeId() + ",";
+        output_string += "\"salary\": " + this.getSalary() + ",";
+        output_string += "\"effectiveDate\": " + this.getEffectiveDate();
+        output_string += "}";
+        return output_string;
+    }
+
 }
