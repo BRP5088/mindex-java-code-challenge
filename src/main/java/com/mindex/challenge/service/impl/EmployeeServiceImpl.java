@@ -24,6 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setEmployeeId(UUID.randomUUID().toString());
         employeeRepository.insert(employee);
 
+        employee.append_employee(employee);
+
         return employee;
     }
 
@@ -36,6 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee == null) {
             throw new RuntimeException("Invalid employeeId: " + id);
         }
+
+        employee.append_employee(employee);
 
         return employee;
     }

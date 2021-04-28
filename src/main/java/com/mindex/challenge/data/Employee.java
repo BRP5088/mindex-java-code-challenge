@@ -6,6 +6,7 @@ import com.mindex.challenge.service.impl.EmployeeServiceImpl;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Employee extends EmployeeServiceImpl{
     private String employeeId;
@@ -14,9 +15,15 @@ public class Employee extends EmployeeServiceImpl{
     private String position;
     private String department;
     private List<Employee> directReports;
-    // private int ReportingStructure;
+    public static HashMap<String, Employee> employee_lst;
+
+
     public Employee() {
         directReports = new ArrayList<Employee>();
+        
+        if( employee_lst == null){
+            employee_lst = new HashMap<String, Employee>();
+        }
     }
 
     public String getEmployeeId() {
@@ -72,8 +79,6 @@ public class Employee extends EmployeeServiceImpl{
 
         List<Employee> lst_of_employees = this.directReports;
 
-        System.out.println( "called get getNumberOfReports" );
-
         if( lst_of_employees == null ){
             return -1;
         }
@@ -85,50 +90,38 @@ public class Employee extends EmployeeServiceImpl{
             int total = 0;
             for( Employee employee : lst_of_employees ){
 
-                System.out.println( "Here is the employee id: " + employee.employeeId );
-                
-                Employee e = getEmployee(employee.employeeId);
+                Employee e = employee_lst.get( employee.employeeId );
                 if( e == null )
                 {
-                    System.out.println( "\ne is null!!\n" );
+                    continue;
                 }
 
-                System.out.println("Here is employee name: " + e.firstName );
-
-                // total += e.getNumberOfReports( true );
-
-                total += employee.getNumberOfReports( true );
+                total += e.getNumberOfReports( true );
+                // total += employee.getNumberOfReports( true );
             }
             total += is_child == true ? 1 : 0;
             return total;
         }
     }
 
-    // public void setReportingStructure(){
-    //     this.ReportingStructure = this.getNumberOfReports( false );
-    // }
-
     public String generateReportStructString(){
 
         String output_string = "{";
         output_string += "\"employee\": " + this.getEmployeeId() + ",";
         output_string += "\"numberOfReports\": " + this.getNumberOfReports( false );
-        // output_string += "\n"+ this.firstName;
-        // output_string += "\n"+ this.directReports;
-
-        output_string += "\n";
-
-        // for( int i = 0; i < this.directReports.size(); i++ ){
-        //     output_string += "\n" + this.directReports.get( i ).employeeId;
-        // }
-
-
-        // System.out.println( this.directReports.getClass().getName() );
-        // System.out.println( this.directReports.get(0).getClass().getName() );
-
-
         output_string += "}";
-
         return output_string;
+    }
+
+    public void append_employee( Employee employee ){
+        employee_lst.put(employee.employeeId, employee);
+    }
+
+    public Employee get_employee( String employeeID ){
+        return employee_lst.get( employeeID );
+    }
+
+    public int get_employee_size(){
+        return employee_lst.size();
     }
 }
